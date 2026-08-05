@@ -77,8 +77,8 @@
                             <div class="info-message">
                                 No transaction records found for the selected date range and filter criteria.
                                 <br><small><em>Note: Sample database records are dated between <strong>July
-                                            2025</strong> and <strong>September 2025</strong> (e.g.,
-                                        <code>2025-07-28</code> to <code>2025-08-15</code>).</em></small>
+                                            2025</strong> and <strong>December 2025</strong> (e.g.,
+                                        <code>2025-07-31</code> to <code>2025-12-24</code>).</em></small>
                             </div>
                         </c:if>
 
