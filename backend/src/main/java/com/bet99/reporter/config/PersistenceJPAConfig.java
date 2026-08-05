@@ -18,11 +18,14 @@ import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
 @Configuration
 @EnableTransactionManagement
+@EnableAspectJAutoProxy
 @PropertySource({"classpath:application.properties"})
 @EnableJpaRepositories(basePackages = "com.bet99.reporter.repository")
-@ComponentScan(basePackages = {"com.bet99.reporter.service"})
+@ComponentScan(basePackages = {"com.bet99.reporter.service", "com.bet99.reporter.aspect"})
 public class PersistenceJPAConfig {
 
     @Autowired

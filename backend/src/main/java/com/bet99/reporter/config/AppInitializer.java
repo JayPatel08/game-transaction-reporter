@@ -1,5 +1,7 @@
 package com.bet99.reporter.config;
 
+import com.bet99.reporter.filter.RequestCorrelationFilter;
+import jakarta.servlet.Filter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -17,5 +19,10 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected String[] getServletMappings() {
         return new String[] { "/" };
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[] { new RequestCorrelationFilter() };
     }
 }
