@@ -2,18 +2,16 @@
 FROM maven:3.8-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline -B    #
+RUN mvn dependency:go-offline -B
 COPY src ./src
+
 RUN mvn clean package -DskipTests
 
 # --- Runtime Execution Layer ---
-FROM eclipse-temurin:17-jre-jammy
+FROM tomcat:10.1-jdk17
 
-# For the production environment, we should create and run as a non-root user
-# RUN useradd -m appuser
-# USER appuser
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-WORKDIR /app
-COPY --from=build /app/target/*.war app.war
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.war"]
