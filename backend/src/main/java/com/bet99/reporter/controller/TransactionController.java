@@ -5,22 +5,26 @@ import com.bet99.reporter.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-@Controller
-@RequestMapping("/")
+@RestController
 public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping(value = {"/", "/report"})
+    @GetMapping("/")
+    public String index() {
+        return "Game Transaction Report application running";
+    }
+    
+    @GetMapping(value = {"/report"})
     public String showReport(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
@@ -71,6 +75,6 @@ public class TransactionController {
         model.addAttribute("sortCol", sortCol);
         model.addAttribute("sortDir", sortDir);
 
-        return "report"; 
+        return "Application is running"; 
     }
 }
