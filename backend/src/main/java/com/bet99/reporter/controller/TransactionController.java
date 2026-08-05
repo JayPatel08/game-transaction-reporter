@@ -5,15 +5,18 @@ import com.bet99.reporter.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@RestController
+@Controller
 public class TransactionController {
 
     @Autowired
@@ -21,7 +24,7 @@ public class TransactionController {
 
     @GetMapping("/")
     public String index() {
-        return "Game Transaction Report application running";
+        return "redirect:/report";
     }
     
     @GetMapping(value = {"/report"})
@@ -46,14 +49,32 @@ public class TransactionController {
 
         // Only generate the report if a search has been initiated (dates provided)
         if (startDate != null && endDate != null) {
+            model.addAttribute("searchInitiated", true);
             try {
                 Page<Transaction> transactionPage = transactionService.getReport(
                         startDate, endDate, accountId, platformTranId, gameTranId, gameId, tranType, page, size, sortCol, sortDir
                 );
                 
-                model.addAttribute("transactions", transactionPage.getContent());
+                List<Transaction> content = transactionPage.getContent();
+                model.addAttribute("transactions", content);
                 model.addAttribute("totalPages", transactionPage.getTotalPages());
                 model.addAttribute("totalElements", transactionPage.getTotalElements());
+
+                // Calculate summary card figures (betSum, winSum, net)
+                BigDecimal betSum = BigDecimal.ZERO;
+                BigDecimal winSum = BigDecimal.ZERO;
+                for (Transaction txn : content) {
+                    if ("bet".equalsIgnoreCase(txn.getTranType())) {
+                        betSum = betSum.add(txn.getTotalAmount() != null ? txn.getTotalAmount() : BigDecimal.ZERO);
+                    } else if ("win".equalsIgnoreCase(txn.getTranType())) {
+                        winSum = winSum.add(txn.getTotalAmount() != null ? txn.getTotalAmount() : BigDecimal.ZERO);
+                    }
+                }
+                Map<String, BigDecimal> summary = new HashMap<>();
+                summary.put("betSum", betSum);
+                summary.put("winSum", winSum);
+                summary.put("net", winSum.subtract(betSum));
+                model.addAttribute("summary", summary);
                 
             } catch (IllegalArgumentException e) {
                 model.addAttribute("error", e.getMessage());
@@ -75,6 +96,6 @@ public class TransactionController {
         model.addAttribute("sortCol", sortCol);
         model.addAttribute("sortDir", sortDir);
 
-        return "Application is running"; 
+        return "report"; 
     }
 }

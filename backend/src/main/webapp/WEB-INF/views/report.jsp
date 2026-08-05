@@ -62,36 +62,52 @@
                         <input type="hidden" name="tranType" value="${param.tranType}">
                     </form>
 
-                    <c:if test="${not empty transactions}">
+                    <!-- This is when the search is initiated by the user -->
+                    <c:if test="${searchInitiated}">
                         <div class="header-actions">
                             <h2>Transaction Results</h2>
-                            <!-- CSV Export Button -->
-                            <a href="/report/export?startDate=${param.startDate}&endDate=${param.endDate}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}"
-                                class="btn btn-success">Export to CSV</a>
+                            <c:if test="${not empty transactions}">
+                                <!-- CSV Export Button -->
+                                <a href="/report/export?startDate=${param.startDate}&endDate=${param.endDate}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}"
+                                    class="btn btn-success">Export to CSV</a>
+                            </c:if>
                         </div>
 
-                        <!-- Bonus: Summary Section -->
-                        <div class="summary-cards">
-                            <div class="card">
-                                <h4>Total Bets</h4>
-                                <div class="value">
-                                    <fmt:formatNumber value="${summary.betSum}" type="currency" currencySymbol="$" />
+                        <c:if test="${empty transactions}">
+                            <div class="info-message">
+                                No transaction records found for the selected date range and filter criteria.
+                                <br><small><em>Note: Sample database records are dated between <strong>July
+                                            2025</strong> and <strong>September 2025</strong> (e.g.,
+                                        <code>2025-07-28</code> to <code>2025-08-15</code>).</em></small>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${not empty summary}">
+                            <!-- Summary Section -->
+                            <div class="summary-cards">
+                                <div class="card">
+                                    <h4>Total Bets</h4>
+                                    <div class="value">
+                                        <fmt:formatNumber value="${summary.betSum}" type="currency"
+                                            currencySymbol="$" />
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <h4>Total Wins</h4>
+                                    <div class="value">
+                                        <fmt:formatNumber value="${summary.winSum}" type="currency"
+                                            currencySymbol="$" />
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <h4>Net (Win - Bet)</h4>
+                                    <div class="value"
+                                        style="color: ${summary.net >= 0 ? 'var(--success-color)' : 'var(--error-color)'};">
+                                        <fmt:formatNumber value="${summary.net}" type="currency" currencySymbol="$" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <h4>Total Wins</h4>
-                                <div class="value">
-                                    <fmt:formatNumber value="${summary.winSum}" type="currency" currencySymbol="$" />
-                                </div>
-                            </div>
-                            <div class="card">
-                                <h4>Net (Win - Bet)</h4>
-                                <div class="value"
-                                    style="color: ${summary.net >= 0 ? 'var(--success-color)' : 'var(--error-color)'};">
-                                    <fmt:formatNumber value="${summary.net}" type="currency" currencySymbol="$" />
-                                </div>
-                            </div>
-                        </div>
+                        </c:if>
 
                         <!-- Report Table -->
                         <div class="table-responsive">
@@ -177,6 +193,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:if test="${empty transactions}">
+                                            <tr>
+                                                <td colspan="9" style="text-align: center; padding: 25px; color: #777;">
+                                                    No matching transactions found. Try adjusting your date range or
+                                                    filters.
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                         <c:forEach var="txn" items="${transactions}">
                                             <tr>
                                                 <td>${txn.id}</td>
@@ -201,23 +225,25 @@
                             </form>
                         </div>
 
-                        <!-- Pagination Controls -->
-                        <div class="pagination-container">
-                            <div class="pagination-info">
-                                Showing Page ${currentPage + 1} of ${totalPages} (Total Records: ${totalElements})
-                            </div>
-                            <div class="pagination-controls">
-                                <c:if test="${currentPage > 0}">
-                                    <a href="?startDate=${param.startDate}&endDate=${param.endDate}&size=${currentSize}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}&sortCol=${sortCol}&sortDir=${sortDir}&page=${currentPage - 1}"
-                                        class="btn">Previous</a>
-                                </c:if>
+                        <c:if test="${not empty transactions}">
+                            <!-- Pagination Controls -->
+                            <div class="pagination-container">
+                                <div class="pagination-info">
+                                    Showing Page ${currentPage + 1} of ${totalPages} (Total Records: ${totalElements})
+                                </div>
+                                <div class="pagination-controls">
+                                    <c:if test="${currentPage > 0}">
+                                        <a href="?startDate=${param.startDate}&endDate=${param.endDate}&size=${currentSize}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}&sortCol=${sortCol}&sortDir=${sortDir}&page=${currentPage - 1}"
+                                            class="btn">Previous</a>
+                                    </c:if>
 
-                                <c:if test="${currentPage + 1 < totalPages}">
-                                    <a href="?startDate=${param.startDate}&endDate=${param.endDate}&size=${currentSize}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}&sortCol=${sortCol}&sortDir=${sortDir}&page=${currentPage + 1}"
-                                        class="btn">Next</a>
-                                </c:if>
+                                    <c:if test="${currentPage + 1 < totalPages}">
+                                        <a href="?startDate=${param.startDate}&endDate=${param.endDate}&size=${currentSize}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}&sortCol=${sortCol}&sortDir=${sortDir}&page=${currentPage + 1}"
+                                            class="btn">Next</a>
+                                    </c:if>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                     </c:if>
                 </div>
 
