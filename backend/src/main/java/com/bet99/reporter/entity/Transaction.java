@@ -72,9 +72,6 @@ public class Transaction {
 
     public Transaction() {}
 
-    // Standard Getters and Setters omitted for brevity 
-    // (Ensure you generate getters/setters for all the fields above)
-
     public Long getId() { return id; }
     public Integer getAccountId() { return accountId; }
     public LocalDateTime getDatetime() { return datetime; }

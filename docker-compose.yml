@@ -1,0 +1,29 @@
+services:
+  db-container:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+      MYSQL_DATABASE: mydb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword123" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  game-transaction-reporter-app:
+    build: .
+    container_name: game_transaction_reporter_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db-container:
+        condition: service_healthy
+
+volumes:
+  db_data:
