@@ -25,5 +25,17 @@ services:
       db-container:
         condition: service_healthy
 
+    develop:
+      watch:
+        # 1. Instantly sync JSP/Web asset changes without restarting
+        - action: sync
+          path: ./backend/src/main/webapp
+          target: /usr/local/tomcat/webapps/ROOT
+        # 2. Rebuild the container automatically if Java code changes
+        - action: rebuild
+          path: ./backend/src/main/java
+        - action: rebuild
+          path: ./backend/pom.xml
+
 volumes:
   db_data:
