@@ -26,6 +26,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
         
         <!-- Spring Data JPA 3.x -->
         <dependency>
@@ -85,7 +90,7 @@
                     <configuration>
                         <rules>
                             <requireMavenVersion>
-                                <version>[3.8,3.9)</version>
+                                <version>[3.8,4.0)</version>
                             </requireMavenVersion>
                         </rules>
                     </configuration>
@@ -98,6 +103,13 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.13.0</version> <!-- Upgraded to match newer Java environments -->
+        </plugin>
+
+        <!-- Maven War Plugin -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.4.0</version>
         </plugin>
     </plugins>
 </build>
