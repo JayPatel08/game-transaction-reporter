@@ -1,7 +1,7 @@
 package com.bet99.reporter.controller;
 
-import com.bet99.report.entity.Transaction;
-import com.bet99.report.service.TransactionService;
+import com.bet99.reporter.entity.Transaction;
+import com.bet99.reporter.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
