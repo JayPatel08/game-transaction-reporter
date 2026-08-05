@@ -1,4 +1,4 @@
-package com.bet99.report.controller;
+package com.bet99.reporter.controller;
 
 import com.bet99.report.entity.Transaction;
 import com.bet99.report.service.TransactionService;

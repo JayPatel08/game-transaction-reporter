@@ -1,6 +1,6 @@
-package com.bet99.report.repository;
+package com.bet99.reporter.repository;
 
-import com.bet99.report.entity.Transaction;
+import com.bet99.reporter.entity.Transaction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -27,10 +27,9 @@ public class TransactionSpecification {
             // Optional Filters
             if (StringUtils.hasText(accountId)) {
                 try {
-                    // ACCOUNT_ID is an int in the DB, so we parse the String input
                     predicates.add(criteriaBuilder.equal(root.get("accountId"), Integer.valueOf(accountId)));
                 } catch (NumberFormatException e) {
-                    // If the user inputs an invalid string for an ID, ignore the filter or handle gracefully
+                    throw new IllegalArgumentException("Invalid account ID format");
                 }
             }
             if (StringUtils.hasText(platformTranId)) {

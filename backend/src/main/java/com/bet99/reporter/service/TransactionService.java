@@ -1,6 +1,6 @@
-package com.bet99.report.service;
+package com.bet99.reporter.service;
 
-import com.bet99.report.entity.Transaction;
+import com.bet99.reporter.entity.Transaction;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;

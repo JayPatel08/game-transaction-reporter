@@ -1,4 +1,4 @@
-package com.bet99.report.entity;
+package com.bet99.reporter.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.bet99.report.config;
+package com.bet99.reporter.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

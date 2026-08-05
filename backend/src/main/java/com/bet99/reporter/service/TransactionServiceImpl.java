@@ -1,8 +1,8 @@
-package com.bet99.report.service;
+package com.bet99.reporter.service;
 
-import com.bet99.report.entity.Transaction;
-import com.bet99.report.repository.TransactionRepository;
-import com.bet99.report.repository.TransactionSpecification;
+import com.bet99.reporter.entity.Transaction;
+import com.bet99.reporter.repository.TransactionRepository;
+import com.bet99.reporter.repository.TransactionSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
