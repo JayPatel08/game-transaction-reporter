@@ -10,6 +10,7 @@ A Spring Web MVC application for querying, filtering, and reporting game transac
 * **Dynamic Multi-Field Filtering**: Filter records by Account ID, Platform Transaction ID, Game Transaction ID, Game ID, and Transaction Type (`bet` / `win`).
 * **Server-Side Pagination & Sorting**: Paginate results (25 or 50 records per page) and sort across table columns in ascending or descending order.
 * **Aggregate Financial Summaries**: Compute real-time totals for Total Bets, Total Wins, and Net Balance (Wins − Bets) for queried records.
+* **CSV Export Generation**: Export filtered transaction datasets directly to a downloadable, formatted `.csv` file preserving applied criteria and sorting order.
 * **Request Correlation & MDC Logging**: Trace HTTP requests end-to-end using `X-Request-ID` header injection and SLF4J MDC context.
 * **Performance & Audit Execution Tracking**: AspectJ AOP interceptor monitoring method runtimes and flagging slow database/service calls (> 300 ms).
 * **Automated Data Seeding**: Container initialization scripts automatically seed MySQL database tables with sample transaction records on first launch.
