@@ -17,6 +17,29 @@ A Spring Web MVC application for querying, filtering, and reporting game transac
 
 ---
 
+## UI Preview & Portal Screenshots
+
+### 1. Complete Page View (Valid Inputs & Report Summary)
+Overview of the portal displaying real-time total bet sum, total win sum, net balance card, column-specific filters, and paginated transaction results.
+
+![Complete Page View](docs/images/full_report_view.png)
+
+---
+
+### 2. Client & Server Date Range Validation
+Validation handling when `Start Date > End Date` is selected:
+
+![Invalid Date Range Validation](docs/images/date_validation_error.png)
+
+---
+
+### 3. Out-of-Range Search Handling
+Informative feedback message displayed when no records exist within the selected timeframe:
+
+![No Records Found](docs/images/no_records_found.png)
+
+---
+
 ## Tech Stack
 
 * **JDK**: Java 17
