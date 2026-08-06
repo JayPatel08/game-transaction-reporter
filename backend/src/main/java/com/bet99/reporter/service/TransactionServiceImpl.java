@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -43,5 +44,28 @@ public class TransactionServiceImpl implements TransactionService {
                 TransactionSpecification.getTransactionsByCriteria(
                         startDate, endDate, accountId, platformTranId, gameTranId, gameId, tranType
                 ), pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Transaction> getAllTransactionsForExport(
+            LocalDateTime startDate, LocalDateTime endDate, String accountId,
+            String platformTranId, String gameTranId, String gameId, String tranType,
+            String sortCol, String sortDir) {
+
+        if (startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Start date and End date are required.");
+        }
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date must be less than or equal to End date.");
+        }
+
+        Sort.Direction direction = "desc".equalsIgnoreCase(sortDir) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, sortCol != null && !sortCol.isBlank() ? sortCol : "datetime");
+
+        return transactionRepository.findAll(
+                TransactionSpecification.getTransactionsByCriteria(
+                        startDate, endDate, accountId, platformTranId, gameTranId, gameId, tranType
+                ), sort);
     }
 }

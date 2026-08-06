@@ -10,4 +10,9 @@ public interface TransactionService {
             LocalDateTime startDate, LocalDateTime endDate, String accountId,
             String platformTranId, String gameTranId, String gameId, String tranType,
             int page, int size, String sortCol, String sortDir);
+
+    List<Transaction> getAllTransactionsForExport(
+            LocalDateTime startDate, LocalDateTime endDate, String accountId,
+            String platformTranId, String gameTranId, String gameId, String tranType,
+            String sortCol, String sortDir);
 }

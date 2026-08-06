@@ -69,7 +69,7 @@
                             <h2>Transaction Results</h2>
                             <c:if test="${not empty transactions}">
                                 <!-- CSV Export Button -->
-                                <a href="/report/export?startDate=${param.startDate}&endDate=${param.endDate}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}"
+                                <a href="/report/export?startDate=${param.startDate}&endDate=${param.endDate}&accountId=${param.accountId}&platformTranId=${param.platformTranId}&gameTranId=${param.gameTranId}&gameId=${param.gameId}&tranType=${param.tranType}&sortCol=${sortCol}&sortDir=${sortDir}"
                                     class="btn btn-success">Export to CSV</a>
                             </c:if>
                         </div>
