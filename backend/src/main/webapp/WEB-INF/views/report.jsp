@@ -21,6 +21,7 @@
                     <c:if test="${not empty error}">
                         <div class="error-message">${error}</div>
                     </c:if>
+                    <div id="jsErrorMessage" class="error-message" style="display: none;"></div>
 
                     <!-- Main Search Form -->
                     <form action="/report" method="get" id="searchForm">
@@ -101,8 +102,11 @@
                                 </div>
                                 <div class="card">
                                     <h4>Net (Win - Bet)</h4>
-                                    <div class="value"
-                                        style="color: ${summary.net >= 0 ? 'var(--success-color)' : 'var(--error-color)'};">
+                                    <c:set var="netColor" value="var(--error-color)" />
+                                    <c:if test="${summary.net >= 0}">
+                                        <c:set var="netColor" value="var(--success-color)" />
+                                    </c:if>
+                                    <div class="value" style="color: ${netColor};">
                                         <fmt:formatNumber value="${summary.net}" type="currency" currencySymbol="$" />
                                     </div>
                                 </div>
@@ -247,6 +251,8 @@
                     </c:if>
                 </div>
 
+                <!-- Link to external JS validation script -->
+                <script src="<c:url value='/resources/js/report.js' />"></script>
             </body>
 
             </html>
