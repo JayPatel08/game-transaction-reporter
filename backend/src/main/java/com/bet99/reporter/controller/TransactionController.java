@@ -64,10 +64,13 @@ public class TransactionController {
                 BigDecimal betSum = BigDecimal.ZERO;
                 BigDecimal winSum = BigDecimal.ZERO;
                 for (Transaction txn : content) {
-                    if ("bet".equalsIgnoreCase(txn.getTranType())) {
-                        betSum = betSum.add(txn.getTotalAmount() != null ? txn.getTotalAmount() : BigDecimal.ZERO);
-                    } else if ("win".equalsIgnoreCase(txn.getTranType())) {
-                        winSum = winSum.add(txn.getTotalAmount() != null ? txn.getTotalAmount() : BigDecimal.ZERO);
+                    if (txn.getTranType() != null && txn.getTotalAmount() != null) {
+                        String type = txn.getTranType().toUpperCase();
+                        if (type.contains("BET")) {
+                            betSum = betSum.add(txn.getTotalAmount().abs());
+                        } else if (type.contains("WIN")) {
+                            winSum = winSum.add(txn.getTotalAmount().abs());
+                        }
                     }
                 }
                 Map<String, BigDecimal> summary = new HashMap<>();
