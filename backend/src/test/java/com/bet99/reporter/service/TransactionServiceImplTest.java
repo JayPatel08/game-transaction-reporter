@@ -115,4 +115,20 @@ public class TransactionServiceImplTest {
         assertEquals(50, capturedPageable.getPageSize());
         assertEquals(Sort.Direction.DESC, capturedPageable.getSort().getOrderFor("datetime").getDirection());
     }
+
+    @Test
+    @DisplayName("getAllTransactionsForExport: Valid parameters should return transaction list")
+    public void getAllTransactionsForExport_withValidParameters_returnsTransactionList() {
+        Transaction txn = new Transaction();
+        List<Transaction> mockList = Collections.singletonList(txn);
+        when(transactionRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(mockList);
+
+        List<Transaction> result = transactionService.getAllTransactionsForExport(
+                startDate, endDate, "2166", null, null, null, null, "datetime", "asc"
+        );
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(txn, result.get(0));
+    }
 }

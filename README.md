@@ -126,6 +126,7 @@ game-transaction-reporter/
 * **Null End Date Validation**: Ensures `IllegalArgumentException` is thrown when `endDate` is missing.
 * **Date Sequence Validation**: Ensures `IllegalArgumentException` is thrown when `startDate` is after `endDate`.
 * **Descending Sort Configuration**: Validates that sort direction and page size properties are correctly configured on the Spring Data `Pageable` instance.
+* **CSV Export Dataset Fetching**: Verifies `getAllTransactionsForExport` fetches unpaginated matching transaction records.
 
 ### Repository & Specification (`TransactionSpecificationTest`)
 * **Date Range Predicates**: Verifies JPA `CriteriaBuilder` builds `greaterThanOrEqualTo` and `lessThanOrEqualTo` predicates for valid date ranges.
